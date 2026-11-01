@@ -1,0 +1,10 @@
+# Output a script might leave behind if it were ever run
+*.log
+*.csv
+*.msi
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
