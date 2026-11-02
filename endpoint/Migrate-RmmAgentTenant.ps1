@@ -137,15 +137,15 @@ function Stop-Level {
 }
 
 # Decode the packed product code used as a key name under HKLM:\SOFTWARE\Classes\Installer\Products.
-# The first three groups are byte-reversed, the last two have the two digits of each byte swapped.
+# The first three groups have their digits reversed, the last two have the two digits of each byte swapped.
 function Convert-PackedGuidToGuid([string]$packed) {
     if (-not $packed -or $packed.Length -ne 32) { return $null }
 
-    function SwapPairs($s) { ($s -split '(.{2})' | Where-Object { $_ })[-1..0] -join '' }
+    function ReverseChars($s) { $chars = $s.ToCharArray(); [array]::Reverse($chars); -join $chars }
 
-    $a = SwapPairs($packed.Substring(0, 8))
-    $b = SwapPairs($packed.Substring(8, 4))
-    $c = SwapPairs($packed.Substring(12, 4))
+    $a = ReverseChars($packed.Substring(0, 8))
+    $b = ReverseChars($packed.Substring(8, 4))
+    $c = ReverseChars($packed.Substring(12, 4))
 
     function NibbleSwapPairs($s) {
         $out = ''
